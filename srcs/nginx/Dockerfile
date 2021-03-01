@@ -8,13 +8,7 @@ RUN apk update
 RUN apk upgrade
 RUN apk add nginx
 RUN apk add openssl
-
-# Replace default config file
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Copy ssl certificates
-COPY localhost.cert /etc/nginx/
-COPY localhost.key /etc/nginx/
+RUN apk add openssh
 
 # Create new user and group 'www' for nginx
 RUN adduser -D -g 'www' www
@@ -23,8 +17,20 @@ RUN adduser -D -g 'www' www
 RUN mkdir /www
 RUN chown -R www:www /var/lib/nginx
 RUN chown -R www:www /www
+COPY index.html /www
 
-# Create pid location to run nginx
+# Replace default config file
+COPY nginx.conf /etc/nginx/
+
+# Copy ssl certificates
+# COPY localhost.cert /etc/nginx/
+# COPY localhost.key /etc/nginx/
+
+# Create ssl certificates
+RUN ssh-keygen -A
+RUN yes "" | openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/certs/localhost.key -out /etc/ssl/certs/localhost.cert
+
+# Create pid location to run nginx, -p can create nested directory
 RUN mkdir -p /var/run/nginx
 
 CMD ["nginx", "-g", "daemon off;"]

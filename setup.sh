@@ -1,6 +1,6 @@
 #!/bin/bash
 minikube start --vm-driver=virtualbox --addons metallb --addons dashboard
-# minikube dashboard &
+minikube dashboard &
 # minikube dashboard --url=true
 
 # deploy metallb
@@ -19,6 +19,9 @@ kubectl create -f ./srcs/nginx/nginx.yaml
 
 # echo -e "minikube ip:"
 # echo $(minikube ip)
+
+sleep 4
+kubectl get all
 
 # echo -e "\n\nnginx service url:"
 # minikube service nginx-service --url
