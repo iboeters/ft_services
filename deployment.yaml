@@ -7,7 +7,7 @@ metadata:
 spec: #inhoud
   template:
     metadata:
-      name: nginx-2
+      name: nginx
       labels:
         app: myapp
     spec:
@@ -18,3 +18,4 @@ spec: #inhoud
   selector:
     matchLabels:
       app: myapp
+      
