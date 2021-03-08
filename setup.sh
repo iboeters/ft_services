@@ -1,5 +1,5 @@
 #!/bin/bash
-bash delete.sh
+bash delete.sh #only when objects exist/minikube started
 
 echo -e "----------------START MINIKUBE----------------"
 minikube start --vm-driver=virtualbox --addons metallb --addons dashboard
@@ -38,5 +38,12 @@ echo -e "----------------SHOW ALL KUBERNETES OBJECTS----------------"
 sleep 4
 kubectl get all
 
-# echo -e "\n\nnginx service url:"
+# echo -e "nginx service url:"
 # minikube service nginx-service --url
+
+# 1. create image
+# docker image build -t mynginx . -q
+# -q: Suppress the build output and print image ID on success
+# 2. run container
+# docker container run -it -p 80:80 -p 443:443 mynginx
+# -d = detach / run on background
