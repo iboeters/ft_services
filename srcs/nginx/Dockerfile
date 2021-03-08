@@ -22,15 +22,11 @@ COPY index.html /www
 # Replace default config file
 COPY nginx.conf /etc/nginx/
 
-# Copy ssl certificates
-# COPY localhost.cert /etc/nginx/
-# COPY localhost.key /etc/nginx/
-
 # Create ssl certificates
 RUN ssh-keygen -A
 RUN yes "" | openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/certs/localhost.key -out /etc/ssl/certs/localhost.cert
 
-# Create pid location to run nginx, -p can create nested directory
+# Create pid location to run nginx, -p to create nested directory
 RUN mkdir -p /var/run/nginx
 
 CMD ["nginx", "-g", "daemon off;"]

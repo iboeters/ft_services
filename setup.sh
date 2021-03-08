@@ -2,8 +2,12 @@
 bash delete.sh #only when objects exist/minikube started
 
 echo -e "----------------START MINIKUBE----------------"
-minikube start --vm-driver=virtualbox --addons metallb --addons dashboard
+minikube start --vm-driver=virtualbox --disk-size=5GB
+minikube addons enable metallb
+minikube addons enable metrics-server #warning compilen
+minikube addons enable dashboard
 minikube dashboard &
+
 # minikube dashboard --url=true
 
 echo -e "----------------DEPLOY METALLB----------------"
@@ -11,8 +15,8 @@ echo -e "----------------DEPLOY METALLB----------------"
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
 # only with first install
-# kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
-kubectl apply -f ./srcs/metallb_conf.yaml
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+kubectl apply -f ./srcs/metallb.yaml
 
 # point shell to minikube's docker-deamon
 eval $(minikube docker-env)
@@ -20,16 +24,16 @@ eval $(minikube docker-env)
 echo -e "----------------NGINX----------------"
 #build docker images and services & deployments
 docker image build -t nginx ./srcs/nginx
-kubectl create -f ./srcs/nginx/nginx.yaml
+kubectl apply -f ./srcs/nginx/nginx.yaml
 
-echo -e "----------------PHPMYADMIN----------------"
-docker image build -t phpmyadmin ./srcs/phpmyadmin
-kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
+# echo -e "----------------PHPMYADMIN----------------"
+# docker image build -t phpmyadmin ./srcs/phpmyadmin
+# kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
 
 echo -e "----------------CHECK NGINX=WORKING----------------"
 # nginx -t
-ps aux | grep nginx
-ps aux | grep 'nginx\|php-fpm'
+# ps aux | grep nginx
+# ps aux | grep 'nginx\|php-fpm'
 
 # echo -e "minikube ip:"
 # echo $(minikube ip)
