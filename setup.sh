@@ -21,10 +21,27 @@ kubectl apply -f ./srcs/metallb.yaml
 # point shell to minikube's docker-deamon
 eval $(minikube docker-env)
 
-echo -e "----------------NGINX----------------"
 #build docker images and services & deployments
+echo -e "----------------NGINX----------------"
 docker image build -t nginx ./srcs/nginx
 kubectl apply -f ./srcs/nginx/nginx.yaml
+
+echo -e "----------------MYSQL----------------"
+#build docker images and services & deployments
+# docker image build -t mysql ./srcs/mysql
+kubectl apply -f ./srcs/mysql/mysql.yaml
+
+echo -e "----------------WORDPRESS----------------"
+#build docker images and services & deployments
+# docker image build -t wordpress ./srcs/wordpress
+kubectl apply -f ./srcs/wordpress/wordpress.yaml
+
+echo -e "----------------PERSISTANT VOLUME----------------"
+kubectl apply -k ./srcs
+
+echo -e "----------------SHOW SECRETS & PVC----------------"
+kubectl get secrets
+kubectl get pvc
 
 # echo -e "----------------PHPMYADMIN----------------"
 # docker image build -t phpmyadmin ./srcs/phpmyadmin
