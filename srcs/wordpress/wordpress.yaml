@@ -50,6 +50,7 @@ spec:
       containers:
       - image: wordpress
         name: wordpress
+        # imagePullPolicy: Never
         env:
         - name: WORDPRESS_DB_HOST
           value: wordpress-mysql

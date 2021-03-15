@@ -12,4 +12,3 @@ RUN apk add mysql mysql-client
 RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 RUN mysqladmin -u root password password
 CMD mariadb start
-

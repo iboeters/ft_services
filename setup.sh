@@ -8,7 +8,7 @@ minikube addons enable metrics-server #warning compilen
 minikube addons enable dashboard
 minikube dashboard &
 
-sleep 2
+sleep 3
 # minikube dashboard --url=true
 
 echo -e "------------------------------------------------DEPLOY METALLB---------------------------------------------------------"
@@ -30,25 +30,27 @@ kubectl apply -f ./srcs/nginx/nginx.yaml
 echo -e "------------------------------------------------MYSQL------------------------------------------------------------------"
 #build docker images and services & deployments
 # docker image build -t mysql ./srcs/mysql
-# kubectl apply -f ./srcs/mysql/mysql.yaml
+kubectl apply -f ./srcs/mysql/mysql.yaml
 
 echo -e "------------------------------------------------WORDPRESS--------------------------------------------------------------"
 #build docker images and services & deployments
 # docker image build -t wordpress ./srcs/wordpress
-# kubectl apply -f ./srcs/wordpress/wordpress.yaml
+kubectl apply -f ./srcs/wordpress/wordpress.yaml
 
-echo -e "------------------------------------------------PERSISTENT VOLUME-------------------------------------------------------"
-kubectl apply -k ./srcs
+# echo -e "------------------------------------------------PERSISTENT VOLUME------------------------------------------------------"
+echo -e "------------------------------------------------SECRETS----------------------------------------------------------------"
+kubectl apply -f ./srcs/secrets.yaml
+# kubectl apply -k ./srcs
 
-echo -e "------------------------------------------------SHOW SECRETS & PVC------------------------------------------------------"
+echo -e "------------------------------------------------SHOW SECRETS & PVC-----------------------------------------------------"
 kubectl get secrets
 kubectl get pvc
 
-# echo -e "------------------------------------------------PHPMYADMIN---------------------------------------------------------------"
-# docker image build -t phpmyadmin ./srcs/phpmyadmin
-# kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
+echo -e "------------------------------------------------PHPMYADMIN---------------------------------------------------------------"
+docker image build -t phpmyadmin ./srcs/phpmyadmin
+kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
 
-echo -e "------------------------------------------------CHECK NGINX=WORKING-----------------------------------------------------"
+# echo -e "------------------------------------------------CHECK NGINX=WORKING---------------------------------------------------"
 # nginx -t
 # ps aux | grep nginx
 # ps aux | grep 'nginx\|php-fpm'
@@ -56,7 +58,7 @@ echo -e "------------------------------------------------CHECK NGINX=WORKING----
 # echo -e "minikube ip:"
 # echo $(minikube ip)
 
-echo -e "------------------------------------------------SHOW ALL KUBERNETES OBJECTS----------------------------------------------"
+echo -e "------------------------------------------------SHOW ALL KUBERNETES OBJECTS--------------------------------------------"
 sleep 8
 kubectl get all
 
