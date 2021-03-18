@@ -22,10 +22,13 @@ kubectl apply -f ./srcs/metallb.yaml
 # point shell to minikube's docker-deamon
 eval $(minikube docker-env)
 
+echo -e "------------------------------------------------SECRETS----------------------------------------------------------------"
+kubectl apply -f ./srcs/mysql/mysql-secret.yaml
+
 #build docker images and services & deployments
-echo -e "------------------------------------------------NGINX------------------------------------------------------------------"
-docker image build -t nginx ./srcs/nginx
-kubectl apply -f ./srcs/nginx/nginx.yaml
+# echo -e "------------------------------------------------NGINX------------------------------------------------------------------"
+# docker image build -t nginx ./srcs/nginx
+# kubectl apply -f ./srcs/nginx/nginx.yaml
 
 echo -e "------------------------------------------------MYSQL------------------------------------------------------------------"
 #build docker images and services & deployments
@@ -38,17 +41,15 @@ echo -e "------------------------------------------------WORDPRESS--------------
 kubectl apply -f ./srcs/wordpress/wordpress.yaml
 
 # echo -e "------------------------------------------------PERSISTENT VOLUME------------------------------------------------------"
-echo -e "------------------------------------------------SECRETS----------------------------------------------------------------"
-kubectl apply -f ./srcs/secrets.yaml
 # kubectl apply -k ./srcs
 
 echo -e "------------------------------------------------SHOW SECRETS & PVC-----------------------------------------------------"
 kubectl get secrets
 kubectl get pvc
 
-echo -e "------------------------------------------------PHPMYADMIN---------------------------------------------------------------"
-docker image build -t phpmyadmin ./srcs/phpmyadmin
-kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
+# echo -e "------------------------------------------------PHPMYADMIN---------------------------------------------------------------"
+# docker image build -t phpmyadmin ./srcs/phpmyadmin
+# kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
 
 # echo -e "------------------------------------------------CHECK NGINX=WORKING---------------------------------------------------"
 # nginx -t

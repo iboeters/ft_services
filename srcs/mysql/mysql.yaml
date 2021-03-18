@@ -1,19 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    metallb.universe.tf/allow-shared-ip: shared
   name: mysql-service
   labels:
     app: wordpress
 spec:
-  type: ClusterIP
   ports:
     - port: 3306
   selector:
     app: wordpress
     tier: mysql
-  # clusterIP: None: not possible when field <<type: LoadBalancer>> is already specified
+  clusterIP: None
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -26,7 +23,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi
+      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,7 +32,6 @@ metadata:
   labels:
     app: wordpress
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: wordpress
@@ -49,9 +45,8 @@ spec:
         tier: mysql
     spec:
       containers:
-      - image: mysql
+      - image: mysql:5.6
         name: mysql
-        # imagePullPolicy: Never
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:

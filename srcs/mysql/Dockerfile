@@ -9,6 +9,8 @@ RUN apk upgrade
 # mysql: to install mariadb, mysql-client: to install commands tools
 RUN apk add mysql mysql-client
 
-RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
-RUN mysqladmin -u root password password
-CMD mariadb start
+COPY my.conf /etc/mysql/conf.d/
+
+RUN mysql_install_db --user=${MYSQL_USER} --datadir=/var/lib/mysql
+RUN mariadb start
+RUN mysqladmin -u root password toor
