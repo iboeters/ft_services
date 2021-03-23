@@ -1,7 +1,7 @@
 FROM alpine:3.12
 
 # Expose ports
-EXPOSE 30022
+EXPOSE 3306
 
 # Install mysql
 RUN apk update
@@ -9,8 +9,8 @@ RUN apk upgrade
 # mysql: to install mariadb, mysql-client: to install commands tools
 RUN apk add mysql mysql-client
 
-COPY my.conf /etc/mysql/conf.d/
+COPY my.cnf /etc/mysql/
+COPY start.sh /tmp/
+RUN chmod +x /tmp/start.sh
 
-RUN mysql_install_db --user=${MYSQL_USER} --datadir=/var/lib/mysql
-RUN mariadb start
-RUN mysqladmin -u root password toor
+ENTRYPOINT [ "/bin/sh", "/tmp/start.sh" ]

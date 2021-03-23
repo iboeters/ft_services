@@ -7,9 +7,7 @@ minikube addons enable metallb
 minikube addons enable metrics-server #warning compilen
 minikube addons enable dashboard
 minikube dashboard &
-
 sleep 3
-# minikube dashboard --url=true
 
 echo -e "------------------------------------------------DEPLOY METALLB---------------------------------------------------------"
 # deploy metallb
@@ -26,22 +24,19 @@ echo -e "------------------------------------------------SECRETS----------------
 kubectl apply -f ./srcs/mysql/mysql-secret.yaml
 
 #build docker images and services & deployments
-# echo -e "------------------------------------------------NGINX------------------------------------------------------------------"
-# docker image build -t nginx ./srcs/nginx
-# kubectl apply -f ./srcs/nginx/nginx.yaml
+echo -e "------------------------------------------------NGINX------------------------------------------------------------------"
+docker image build -t nginx ./srcs/nginx
+kubectl apply -f ./srcs/nginx/nginx.yaml
 
 echo -e "------------------------------------------------MYSQL------------------------------------------------------------------"
 #build docker images and services & deployments
-# docker image build -t mysql ./srcs/mysql
+docker image build -t mysql ./srcs/mysql
 kubectl apply -f ./srcs/mysql/mysql.yaml
 
 echo -e "------------------------------------------------WORDPRESS--------------------------------------------------------------"
 #build docker images and services & deployments
 # docker image build -t wordpress ./srcs/wordpress
 kubectl apply -f ./srcs/wordpress/wordpress.yaml
-
-# echo -e "------------------------------------------------PERSISTENT VOLUME------------------------------------------------------"
-# kubectl apply -k ./srcs
 
 echo -e "------------------------------------------------SHOW SECRETS & PVC-----------------------------------------------------"
 kubectl get secrets
