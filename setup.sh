@@ -35,7 +35,7 @@ kubectl apply -f ./srcs/mysql/mysql.yaml
 
 echo -e "------------------------------------------------WORDPRESS--------------------------------------------------------------"
 #build docker images and services & deployments
-# docker image build -t wordpress ./srcs/wordpress
+docker image build -t wordpress ./srcs/wordpress
 kubectl apply -f ./srcs/wordpress/wordpress.yaml
 
 echo -e "------------------------------------------------SHOW SECRETS & PVC-----------------------------------------------------"

@@ -44,8 +44,9 @@ spec:
         app: wordpress
     spec:
       containers:
-      - image: wordpress:4.8-apache
+      - image: wordpress
         name: wordpress
+        imagePullPolicy: Never
         env:
         - name: WORDPRESS_DB_HOST
           value: mysql-service
