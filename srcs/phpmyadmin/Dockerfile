@@ -20,8 +20,9 @@ RUN chown -R www:www /var/lib/nginx
 RUN chown -R www:www /www
 # COPY index.html /www
 
-# Replace default config file
-COPY nginx.conf /etc/nginx/
+# Copy config files
+COPY nginx.conf /etc/nginx
+COPY config.inc.php /www
 
 # Create ssl certificates
 RUN ssh-keygen -A
@@ -35,12 +36,13 @@ RUN apk add php7-fpm php7-mcrypt php7-soap php7-openssl php7-gmp php7-pdo_odbc p
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/4.9.4/phpMyAdmin-4.9.4-english.tar.gz
 RUN tar -xzf phpMyAdmin-4.9.4-english.tar.gz -C /www/ --strip-components 1
 
+
 # Modify configuration file www.conf
-RUN sed -i "s|;listen.owner\s*=\s*nobody|listen.owner = ${PHP_FPM_USER}|g" /etc/php7/php-fpm.d/www.conf;\
-    sed -i "s|;listen.group\s*=\s*nobody|listen.group = ${PHP_FPM_GROUP}|g" /etc/php7/php-fpm.d/www.conf;\
+RUN sed -i "s|;listen.owner\s*=\s*nobody|listen.owner = www|g" /etc/php7/php-fpm.d/www.conf;\
+    sed -i "s|;listen.group\s*=\s*nobody|listen.group = www|g" /etc/php7/php-fpm.d/www.conf;\
     sed -i "s|;listen.mode\s*=\s*0660|listen.mode = ${PHP_FPM_LISTEN_MODE}|g" /etc/php7/php-fpm.d/www.conf;\
-    sed -i "s|user\s*=\s*nobody|user = ${PHP_FPM_USER}|g" /etc/php7/php-fpm.d/www.conf;\
-    sed -i "s|group\s*=\s*nobody|group = ${PHP_FPM_GROUP}|g" /etc/php7/php-fpm.d/www.conf;\
+    sed -i "s|user\s*=\s*nobody|user = www|g" /etc/php7/php-fpm.d/www.conf;\
+    sed -i "s|group\s*=\s*nobody|group = www|g" /etc/php7/php-fpm.d/www.conf;\
     sed -i "s|;log_level\s*=\s*notice|log_level = notice|g" /etc/php7/php-fpm.d/www.conf;
 
 # Modify configuration file php.ini 
@@ -56,6 +58,4 @@ RUN sed -i "s|display_errors\s*=\s*Off|display_errors = ${PHP_DISPLAY_ERRORS}|i"
 # start nginx and php
 COPY start.sh /www/
 RUN chmod +x /www/start.sh
-# COPY start.sh ./start.sh
-# RUN chmod +x ./start.sh
 CMD ["sh", "/www/start.sh"]

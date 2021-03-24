@@ -42,17 +42,16 @@ echo -e "------------------------------------------------SHOW SECRETS & PVC-----
 kubectl get secrets
 kubectl get pvc
 
-# echo -e "------------------------------------------------PHPMYADMIN---------------------------------------------------------------"
-# docker image build -t phpmyadmin ./srcs/phpmyadmin
-# kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
+echo -e "------------------------------------------------PHPMYADMIN---------------------------------------------------------------"
+docker image build -t phpmyadmin ./srcs/phpmyadmin
+kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
 
-# echo -e "------------------------------------------------CHECK NGINX=WORKING---------------------------------------------------"
-# nginx -t
-# ps aux | grep nginx
-# ps aux | grep 'nginx\|php-fpm'
+echo -e "------------------------------------------------CHECK NGINX=WORKING---------------------------------------------------"
+ps aux | grep nginx
+ps aux | grep 'nginx\|php-fpm'
 
-# echo -e "minikube ip:"
-# echo $(minikube ip)
+echo -e "minikube ip:"
+echo $(minikube ip)
 
 echo -e "------------------------------------------------SHOW ALL KUBERNETES OBJECTS--------------------------------------------"
 sleep 8

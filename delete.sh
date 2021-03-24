@@ -3,14 +3,14 @@ echo -e "deleting secrets:"
 kubectl delete secret mysql-pass
 echo -e "deleting svcs:"
 kubectl delete service nginx-service
-# kubectl delete service phpmyadmin-service
-kubectl delete service wordpress-service
+kubectl delete service phpmyadmin-service
 kubectl delete service mysql-service
+kubectl delete service wordpress-serttpvice
 
 # kubectl delete service kubernetes
 echo -e "deleting deployments:"
 kubectl delete deployment nginx-deployment
-# kubectl delete deployment phpmyadmin-deployment
+kubectl delete deployment phpmyadmin-deployment
 kubectl delete deployment mysql-deployment
 kubectl delete deployment wordpress-deployment
 
