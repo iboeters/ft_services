@@ -24,10 +24,6 @@ RUN chown -R www:www /www
 COPY nginx.conf /etc/nginx
 COPY config.inc.php /www
 
-# Create ssl certificates
-RUN ssh-keygen -A
-RUN yes "" | openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/certs/localhost.key -out /etc/ssl/certs/localhost.cert
-
 # Create pid location to run nginx, -p can create nested directory
 RUN mkdir -p /var/run/nginx
 

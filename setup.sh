@@ -22,29 +22,41 @@ eval $(minikube docker-env)
 
 echo -e "------------------------------------------------SECRETS----------------------------------------------------------------"
 kubectl apply -f ./srcs/mysql/mysql-secret.yaml
+kubectl apply -f ./srcs/influxdb/influxdb-secrets.yaml
+kubectl apply -f ./srcs/telegraf/telegraf-secrets.yaml
+kubectl apply -f ./srcs/grafana/grafana-secrets.yaml
 
-#build docker images and services & deployments
 echo -e "------------------------------------------------NGINX------------------------------------------------------------------"
 docker image build -t nginx ./srcs/nginx
 kubectl apply -f ./srcs/nginx/nginx.yaml
 
 echo -e "------------------------------------------------MYSQL------------------------------------------------------------------"
-#build docker images and services & deployments
 docker image build -t mysql ./srcs/mysql
 kubectl apply -f ./srcs/mysql/mysql.yaml
 
 echo -e "------------------------------------------------WORDPRESS--------------------------------------------------------------"
-#build docker images and services & deployments
 docker image build -t wordpress ./srcs/wordpress
 kubectl apply -f ./srcs/wordpress/wordpress.yaml
+
+echo -e "------------------------------------------------PHPMYADMIN-------------------------------------------------------------"
+docker image build -t phpmyadmin ./srcs/phpmyadmin
+kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
+
+echo -e "------------------------------------------------INFLUXDB---------------------------------------------------------------"
+# docker image build -t influxdb ./srcs/influxdb
+kubectl apply -f ./srcs/influxdb/influxdb.yaml
+
+echo -e "------------------------------------------------TELEGRAF---------------------------------------------------------------"
+# docker image build -t telegraf ./srcs/telegraf
+kubectl apply -f ./srcs/telegraf/telegraf.yaml
+
+echo -e "------------------------------------------------GRAFANA----------------------------------------------------------------"
+# docker image build -t grafana ./srcs/grafana
+kubectl apply -f ./srcs/grafana/grafana.yaml
 
 echo -e "------------------------------------------------SHOW SECRETS & PVC-----------------------------------------------------"
 kubectl get secrets
 kubectl get pvc
-
-echo -e "------------------------------------------------PHPMYADMIN---------------------------------------------------------------"
-docker image build -t phpmyadmin ./srcs/phpmyadmin
-kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
 
 echo -e "------------------------------------------------CHECK NGINX=WORKING---------------------------------------------------"
 ps aux | grep nginx
@@ -66,3 +78,6 @@ kubectl get all
 # 2. run container
 # docker container run -it -p 80:80 -p 443:443 mynginx
 # -d = detach / run on background
+
+#nginx redirect:
+# curl -I http://192.168.99.221
