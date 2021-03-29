@@ -39,8 +39,8 @@ define('DB_COLLATE', '');
 
 // define('WP_HOME', 'http://${WORDPRESS_SVC_SERVICE_HOST}:${WORDPRESS_SVC_SERVICE_PORT}' );
 // define('WP_SITEURL', 'http://${WORDPRESS_SVC_SERVICE_HOST}:${WORDPRESS_SVC_SERVICE_PORT}' );
-define('WP_HOME', 'http://192.168.99.221:5050' );
-define('WP_SITEURL', 'http://192.168.99.221:5050' );
+define('WP_HOME', 'https://192.168.99.221:5050');
+define('WP_SITEURL', 'https://192.168.99.221:5050');
 
 /**#@+
  * Authentication Unique Keys and Salts.

@@ -81,3 +81,6 @@ kubectl get all
 
 #nginx redirect:
 # curl -I http://192.168.99.221
+
+#ssh into running container:
+#kubectl exec --stdin --tty [pod-name] -- /bin/sh

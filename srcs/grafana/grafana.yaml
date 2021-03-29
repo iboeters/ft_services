@@ -4,6 +4,8 @@ metadata:
   name: grafana-service
   labels:
     app: grafana
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared
 spec:
   ports:
     - port: 3000
