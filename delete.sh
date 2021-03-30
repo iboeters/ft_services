@@ -27,4 +27,4 @@ docker rmi $(docker images -a -q) -f
 kubectl delete pvc mysql-pv-claim
 kubectl delete pvc wp-pv-claim
 kubectl delete pvc influxdb-pvc
-# minikube delete
+minikube delete

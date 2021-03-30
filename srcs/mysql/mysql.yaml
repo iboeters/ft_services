@@ -53,6 +53,8 @@ spec:
               key: password
         - name: MYSQL_USER
           value: mysql
+        - name: MYSQL_PASSWORD
+          value: password
         - name: MYSQL_DB_HOST
           value: mysql-service
         - name: MYSQL_DB_NAME

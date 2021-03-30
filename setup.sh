@@ -34,13 +34,13 @@ echo -e "------------------------------------------------MYSQL------------------
 docker image build -t mysql ./srcs/mysql
 kubectl apply -f ./srcs/mysql/mysql.yaml
 
-echo -e "------------------------------------------------WORDPRESS--------------------------------------------------------------"
-docker image build -t wordpress ./srcs/wordpress
-kubectl apply -f ./srcs/wordpress/wordpress.yaml
-
 echo -e "------------------------------------------------PHPMYADMIN-------------------------------------------------------------"
 docker image build -t phpmyadmin ./srcs/phpmyadmin
 kubectl create -f ./srcs/phpmyadmin/phpmyadmin.yaml
+
+echo -e "------------------------------------------------WORDPRESS--------------------------------------------------------------"
+docker image build -t wordpress ./srcs/wordpress
+kubectl apply -f ./srcs/wordpress/wordpress.yaml
 
 echo -e "------------------------------------------------INFLUXDB---------------------------------------------------------------"
 # docker image build -t influxdb ./srcs/influxdb
@@ -84,3 +84,5 @@ kubectl get all
 
 #ssh into running container:
 #kubectl exec --stdin --tty [pod-name] -- /bin/sh
+
+# grep -rnw '/path/to/somewhere/' -e 'pattern'
