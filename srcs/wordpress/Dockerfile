@@ -5,20 +5,24 @@ RUN apk add nginx
 
 # download wordpress
 RUN mkdir -p /usr/share/webapps
-RUN wget -c https://wordpress.org/latest.tar.gz
-RUN tar -xzvf latest.tar.gz -C /usr/share/webapps
-RUN rm latest.tar.gz
+# RUN wget -c https://wordpress.org/latest.tar.gz
+# RUN tar -xzvf latest.tar.gz -C /usr/share/webapps
+# RUN rm latest.tar.gz
 
 # wp config file to right location
-COPY wp-config.php /usr/share/webapps/wordpress/wp-config.php
+COPY wp-config.php .
 
 # ADD USER NGINX
 RUN adduser -D -g 'www' www
-RUN mkdir /www 
+RUN mkdir /www
 RUN chown -R www:www /var/lib/nginx
 RUN chown -R www:www /www
 
 COPY nginx.conf /etc/nginx/nginx.conf
+
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar; \
+	chmod +x wp-cli.phar; \
+	mv wp-cli.phar /usr/local/bin/wp
 
 # COPY index.html /www
 RUN mkdir -p /run/nginx
