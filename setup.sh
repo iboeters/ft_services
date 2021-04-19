@@ -1,6 +1,7 @@
 #!/bin/bash
 bash delete.sh #only when objects exist/minikube started
 
+
 echo -e "------------------------------------------------START MINIKUBE---------------------------------------------------------"
 minikube start --vm-driver=virtualbox --disk-size=5GB
 minikube addons enable metallb
@@ -86,3 +87,6 @@ kubectl get all
 #kubectl exec --stdin --tty [pod-name] -- /bin/sh
 
 # grep -rnw '/path/to/somewhere/' -e 'pattern'
+
+# error: too many request
+# docker login -> username: codamibo

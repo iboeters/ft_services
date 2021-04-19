@@ -1,20 +1,24 @@
 FROM alpine:3.12
 
-RUN apk add --no-cache wget php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-mbstring php7-json php7-session
+RUN apk add --no-cache wget php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-mbstring php7-json php7-session php7-phar
 RUN apk add nginx
+RUN apk add mysql-client
 
 # download wordpress
-RUN mkdir -p /usr/share/webapps
-# RUN wget -c https://wordpress.org/latest.tar.gz
-# RUN tar -xzvf latest.tar.gz -C /usr/share/webapps
-# RUN rm latest.tar.gz
+RUN mkdir -p /www
+RUN wget -c https://wordpress.org/latest.tar.gz
+RUN tar -xzvf latest.tar.gz -C /www
+RUN rm latest.tar.gz
 
 # wp config file to right location
+COPY wp-config.php /www
+COPY wp-config.php /www/wordpress
 COPY wp-config.php .
+
 
 # ADD USER NGINX
 RUN adduser -D -g 'www' www
-RUN mkdir /www
+# RUN mkdir /www
 RUN chown -R www:www /var/lib/nginx
 RUN chown -R www:www /www
 
